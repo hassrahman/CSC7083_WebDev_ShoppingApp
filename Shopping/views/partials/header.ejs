@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.19.2/dist/css/uikit.min.css" />
+</head>
+<body>
+    <div class="uk-section uk-section-xsmall">
+        <div class="uk-container">
+            <nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo" href="/">Shoping List Web App</a>
+                    <%# if statement checks if a user is logged in %>
+                    <% if (locals.user) { %>
+                        <%# These links only show for loggedin users %>
+                        <ul class="uk-navbar-nav">
+                            <li><a href="/">My Lists</a></li>
+                            <li><a href="/analytics">Analytics</a></li>
+                        </ul>
+                    <% } %>
+                </div>
+                <div class="uk-navbar-right">
+                    <ul class="uk-navbar-nav">
+                        <%# If a user is logged in, show their name and a logout button %>
+                        <% if (locals.user) { %>
+                            <li><a href="#">Welcome, <%= user %></a></li>
+                            <li><a href="/logout">Logout</a></li>
+                        <%# Otherwise, show the login and register buttons %>
+                        <% } else { %>
+                            <li><a href="/login">Login</a></li>
+                            <li><a href="/register">Register</a></li>
+                        <% } %>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+    </div>

@@ -1,0 +1,39 @@
+<%- include('partials/header', { title: 'Add Item', user: user }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-small">
+        <h2 class="uk-heading-small">Add a New Item</h2>
+        <%# After adding an item, the user is redirected here with a success flag %>
+        <% if (locals.status && status === 'added') { %>
+            <div class="uk-alert-success" uk-alert><a class="uk-alert-close" uk-close></a><p>Item successfully added!</p></div>
+        <% } %>
+        <form method="post" action="/item/new/<%= listId %>" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label">Item Name</label>
+                <input class="uk-input" name="itemName" type="text" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Quantity</label>
+                <input class="uk-input" name="quantity" type="number" value="1" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Category</label>
+                <select class="uk-select" name="category">
+                    <%# Loop through the categories array to build the dropdown options %>
+                    <% categories.forEach(cat => { %>
+                        <option value="<%= cat %>"><%= cat %></option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Notes (Optional)</label>
+                <textarea class="uk-textarea" name="notes" rows="3"></textarea>
+            </div>
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large">Add to List</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

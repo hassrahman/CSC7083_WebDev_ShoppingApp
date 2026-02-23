@@ -1,0 +1,97 @@
+<%- include('partials/header', { title: list.list_name, user: user }) %>
+
+
+
+    <div class="uk-section uk-section-muted">
+        <div class="uk-container">
+
+            
+            <div class="uk-card uk-card-default uk-card-body uk-margin-bottom">
+                <div uk-grid>
+                    <div class="uk-width-expand">
+                        <%# display the list details at  top %>
+                            <h2 class="uk-card-title">
+                                <%= list.list_name %>
+                            </h2>
+                            <p class="uk-text-meta">Date List Created: <%= new
+                                    Date(list.creation_date).toLocaleDateString('en-GB') %>
+                                    <% if (list.target_shop) { %> | Target Shop: <%= list.target_shop %>
+                                            <% } %>
+                            </p>
+                            <% if (list.description) { %>
+                                <p>
+                                    <%= list.description %>
+                                </p>
+                                <% } %>
+                    </div>
+                    <div class="uk-width-auto@s uk-text-right@s">
+                        <%# buttons to edit the list or add item %>
+                            <a href="/list/edit/<%= list.id %>" class="uk-button uk-button-secondary">Edit List</a>
+                            <a href="/item/new/<%= list.id %>" class="uk-button uk-button-primary">Add Item</a>
+                    </div>
+                </div>
+            </div>
+<div class="uk-margin">
+            <form method="get" class="uk-grid-small" uk-grid>
+                <div class="uk-width-expand">
+                    <select class="uk-select" name="filterByCategory" onchange="this.form.submit()">
+                        <option value="">-- Filter by Category --</option>
+                        <%# loop through categories to build dropdown optns %>
+                        <% categories.forEach(cat => { %>
+                            <%# if category matches current filter, mark as selected %>
+                            <option value="<%= cat %>" <%= currentCategory === cat ? 'selected' : '' %>>
+                                <%= cat %>
+                            </option>
+                        <% }); %>
+                    </select>
+                </div>
+                <div class="uk-width-auto">
+                    <a href="/list/<%= list.id %>" class="uk-button uk-button-default">Clear</a>
+                </div>
+            </form>
+        </div>
+
+            <table class="uk-table uk-table-striped uk-table-hover">
+                <thead>
+                    <tr>
+                        <%# Each header is a direct link that reloads the page with sort parameters %>
+                            <th><a href="/list/<%= list.id %>?sortBy=item_name&order=asc" class="uk-link-reset">Item
+                                    Name ⇅</a></th>
+                            <th><a href="/list/<%= list.id %>?sortBy=quantity&order=asc" class="uk-link-reset">Quantity
+                                    ⇅</a></th>
+                            <th><a href="/list/<%= list.id %>?sortBy=category&order=asc" class="uk-link-reset">Category
+                                    ⇅</a></th>
+                            <th><a href="/list/<%= list.id %>?sortBy=purchase_status&order=asc"
+                                    class="uk-link-reset">Status ⇅</a></th>
+                            <th><a href="/list/<%= list.id %>?sortBy=date_added&order=asc" class="uk-link-reset">Date
+                                    Added ⇅</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%# loop through items array and display each one as a row %>
+                        <% items.forEach((item)=> { %>
+                            <%# make  entire table row clickable linking to the edit page %>
+                                <tr class="uk-link-reset" onclick="window.location='/item/edit/<%= item.id %>';">
+                                    <td>
+                                        <%= item.item_name %>
+                                    </td>
+                                    <td>
+                                        <%= item.quantity %>
+                                    </td>
+                                    <td>
+                                        <%= item.category %>
+                                    </td>
+                                    <td>
+                                        <%= item.purchase_status ? 'Purchased' : 'Not Purchased' %>
+                                    </td>
+                                    <td>
+                                        <%= new Date(item.date_added).toLocaleDateString('en-GB') %>
+                                    </td>
+                                </tr>
+                                <% }); %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <%- include('partials/footer') %>

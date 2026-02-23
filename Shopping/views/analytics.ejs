@@ -1,0 +1,41 @@
+<%- include('partials/header', { title: 'Analytics', user: user }) %>
+<%# adding the chart.js library to enable charts %>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container">
+        <h2 class="uk-heading-small">My Shopping Analytics</h2>
+        <div class="uk-card uk-card-default uk-card-body uk-width-1-2@m">
+            <h3 class="uk-card-title">Overall Stats</h3>
+            <p>Total Lists Created: <%= stats.totalLists %></p>
+            <p>Total Items Purchased: <%= stats.totalItemsPurchased %></p>
+        </div>
+        <div class="uk-card uk-card-default uk-card-body uk-margin-top">
+            <h3 class="uk-card-title">Purchased Items by Category</h3>
+            <%#  data from the controller is  stored in a data attribute %>
+            <canvas id="categoryChart" data-categories='<%- JSON.stringify(stats.categoryCounts) %>'></canvas>
+        </div>
+    </div>
+</div>
+
+<script>
+    //Get the canvas element from the page
+    const ctx = document.getElementById('categoryChart');
+    const categoryData = JSON.parse(ctx.dataset.categories);
+    const labels = categoryData.map(item => item.category);
+    const data = categoryData.map(item => item.itemCount);
+    //Create the new pie chart, https://www.chartjs.org/docs/latest/charts/doughnut.html
+    new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Items Purchased',
+                data: data,
+                backgroundColor: ['rgba(255, 99, 132, 0.7)','rgba(54, 162, 235, 0.7)','rgba(255, 206, 86, 0.7)','rgba(75, 192, 192, 0.7)','rgba(153, 102, 255, 0.7)','rgba(255, 159, 64, 0.7)']
+            }]
+        }
+    });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: 'Login', user: null }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-xsmall">
+        <h2 class="uk-heading-small uk-text-center">Login to Your Account</h2>
+        <%# if the user was just redirected from registration show success message %>
+        <% if (locals.status && status === 'registered') { %>
+            <div class="uk-alert-success" uk-alert><a class="uk-alert-close" uk-close></a><p>Registration successful! Please log in.</p></div>
+        <% } %>
+        <%# if the controller passes an error display it %>
+        <% if (locals.error) { %>
+            <div class="uk-alert-danger" uk-alert><a class="uk-alert-close" uk-close></a><p><%= error %></p></div>
+        <% } %>
+
+        <%# form submits its data via POST to the /login route %>
+        <form method="post" action="/login" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="username">Username</label>
+                <input class="uk-input" name="username" type="text" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="userpass">Password</label>
+                <input class="uk-input" name="userpass" type="password" required>
+            </div>
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">Login</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

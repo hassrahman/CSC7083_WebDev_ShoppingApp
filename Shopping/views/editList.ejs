@@ -1,0 +1,32 @@
+<%- include('partials/header', { title: 'Edit List', user: user }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-small">
+        <h2>Edit List: <%= list.list_name %></h2>
+        <%# If a delete fails, the controller redirects here with an error flag %>
+        <% if (locals.error && error === 'delete_failed') { %>
+            <div class="uk-alert-danger" uk-alert><a class="uk-alert-close" uk-close></a><p>Delete failed. List must be empty or all items must be purchased.</p></div>
+        <% } %>
+        <form method="post" action="/list/edit/<%= list.id %>" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label">List Name</label>
+                <%# Pre-populate the input with the current list name %>
+                <input class="uk-input" name="listName" type="text" value="<%= list.list_name %>" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Description</label>
+                <textarea class="uk-textarea" name="description" rows="3"><%= list.description %></textarea>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Target Shop</label>
+                <input class="uk-input" name="targetShop" type="text" value="<%= list.target_shop %>">
+            </div>
+            <div class="uk-margin" uk-grid>
+                <div><button class="uk-button uk-button-primary uk-button-large">Update List</button></div>
+                <div><button class="uk-button uk-button-danger uk-button-large" formaction="/list/delete/<%= list.id %>">Delete List</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

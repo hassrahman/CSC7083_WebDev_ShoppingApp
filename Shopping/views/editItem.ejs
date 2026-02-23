@@ -1,0 +1,51 @@
+<%- include('partials/header', { title: 'Edit Item', user: user }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-small">
+        <h2>Edit Item: <%= item.item_name %></h2>
+        <%# If a delete fails, the controller redirects here with an error flag %>
+        <% if (locals.error && error === 'delete_failed') { %>
+            <div class="uk-alert-danger" uk-alert><a class="uk-alert-close" uk-close></a><p>Delete failed. Item must be purchased first.</p></div>
+        <% } %>
+        <form method="post" action="/item/edit/<%= item.id %>" class="uk-form-stacked">
+            <%# hidden input allows us to remember which list to redirect back to %>
+            <input type="hidden" name="listId" value="<%= item.list_id %>">
+            <div class="uk-margin">
+                <label class="uk-form-label">Item Name</label>
+                <input class="uk-input" name="itemName" type="text" value="<%= item.item_name %>" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Quantity</label>
+                <input class="uk-input" name="quantity" type="number" value="<%= item.quantity %>" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Category</label>
+                <select class="uk-select" name="category">
+                    <% categories.forEach(cat => { %>
+                        <%# if items category matches, mark this option as 'selected' %>
+                        <option value="<%= cat %>" <%= item.category === cat ? 'selected' : '' %>>
+                            <%= cat %>
+                        </option>
+                    <% }); %>
+                </select>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Notes (Optional)</label>
+                <textarea class="uk-textarea" name="notes" rows="3"><%= item.notes %></textarea>
+            </div>
+            <div class="uk-margin">
+                <label>
+                    <%# if the items status is purchased check  box %>
+                    <input class="uk-checkbox" type="checkbox" name="purchaseStatus" <%= item.purchase_status ? 'checked' : '' %>>
+                     Mark as Purchased
+                </label>
+            </div>
+            <div class="uk-margin" uk-grid>
+                <div><button class="uk-button uk-button-primary uk-button-large">Update Item</button></div>
+                <div><button class="uk-button uk-button-danger uk-button-large" formaction="/item/delete/<%= item.id %>">Delete Item</button></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

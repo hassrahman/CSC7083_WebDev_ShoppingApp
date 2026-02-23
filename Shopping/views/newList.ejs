@@ -1,0 +1,27 @@
+<%- include('partials/header', { title: 'New List', user: user }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-small">
+        <h2 class="uk-heading-small">Create a New Shopping List</h2>
+        <%# this form POSTs to the /list/new route to handle creation %>
+        <form method="post" action="/list/new" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label">List Name (Required)</label>
+                <input class="uk-input" name="listName" type="text" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Description (Optional)</label>
+                <textarea class="uk-textarea" name="description" rows="3"></textarea>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label">Target Shop (Optional)</label>
+                <input class="uk-input" name="targetShop" type="text">
+            </div>
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large">Create List</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

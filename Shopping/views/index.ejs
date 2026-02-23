@@ -1,0 +1,31 @@
+<%- include('partials/header', { title: 'My Lists', user: user }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container">
+        <div uk-grid>
+            <div class="uk-width-expand">
+                <h2 class="uk-heading-small">My Shopping Lists</h2>
+            </div>
+            <div class="uk-width-auto">
+                <%# this button links to the page for creating a new list %>
+                <a href="/list/new" class="uk-button uk-button-primary">Create Shopping List</a>
+            </div>
+        </div>
+        <div class="uk-child-width-1-2@s uk-grid-match" uk-grid>
+            <%# Loop through lists array passed from the controller %>
+            <% lists.forEach((list) => { %>
+                <div>
+                    <%# each list is a link to its own detailed view page %>
+                    <a href='/list/<%= list.id %>' class='uk-display-block uk-card uk-card-body uk-card-default uk-link-toggle'>
+                        <%# print the list name %>
+                        <h3 class='uk-card-title uk-link-heading'><%= list.list_name %></h3>
+                        <%# print the formatted creation date %>
+                        <p>Created: <%= new Date(list.creation_date).toLocaleDateString('en-GB') %></p>
+                    </a>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+</div>
+
+<%- include('partials/footer') %>

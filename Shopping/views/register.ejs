@@ -1,0 +1,36 @@
+<%- include('partials/header', { title: 'Register', user: null }) %>
+
+<div class="uk-section uk-section-muted">
+    <div class="uk-container uk-container-xsmall">
+        <h2 class="uk-heading-small uk-text-center">Create Your Account</h2>
+        <%# If the controller passes an error e.g. dupe email, display it %>
+        <% if (locals.error) { %>
+            <div class="uk-alert-danger" uk-alert><a class="uk-alert-close" uk-close></a><p><%= error %></p></div>
+        <% } %>
+        
+        <%# form submitsvia POST to /register route %>
+        <form method="post" action="/register" class="uk-form-stacked">
+            <div class="uk-margin">
+                <label class="uk-form-label" for="fullName">Full Name</label>
+                <input class="uk-input" name="fullName" type="text" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="username">Username</label>
+                <input class="uk-input" name="username" type="text" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="email">Email</label>
+                <input class="uk-input" name="email" type="email" required>
+            </div>
+            <div class="uk-margin">
+                <label class="uk-form-label" for="password">Password</label>
+                <input class="uk-input" name="password" type="password" required>
+            </div>
+            <div class="uk-margin">
+                <button class="uk-button uk-button-primary uk-button-large uk-width-1-1">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<%- include('partials/footer') %>
